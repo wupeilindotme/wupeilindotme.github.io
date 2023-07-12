@@ -2,7 +2,7 @@
 title: nvm
 date: 2023-06-23 22:59:01
 tags: 
-  - nodejs
+  - Node.js
   - 开发环境管理
 ---
 
