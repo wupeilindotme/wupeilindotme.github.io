@@ -1,3 +1,13 @@
+---
+title: ElasticSearch
+date: 2023-09-11 14:22:05
+tags:
+- 中间件
+- NoSQL
+---
+
+
+
 # ElasticSearch
 
 ## 前言
@@ -335,7 +345,7 @@ GET _analyze
 
   新建一个文件 `my.dic` ;
 
-  在`IKAnalyzer.cfg.xml`中指定该文件如下：
+  在`./config/IKAnalyzer.cfg.xml`中指定该文件如下：
 
   ```xml
   <?xml version="1.0" encoding="UTF-8"?>
@@ -354,7 +364,75 @@ GET _analyze
   
   ```
 
+  此时可以在my.dic文件中添加一些自定义的词汇，再重启ES，分词时就能识别到自定义的词汇。
+
+  如在my.dic中添加一些网络热词
   
+  ```
+  躺平
+  摆烂
+  摸鱼
+  ```
+  
+  再进行分词如下：
+  
+  ```json
+  GET _analyze
+  {
+    "analyzer": "ik_max_word",
+    "text": "我要摸鱼，不让摸鱼我就躺平，不让躺平我就摆烂"
+  }
+  ```
+  
+  ![image-20230829204405757](elasticsearch/image-20230829204405757.png)
 
-  此时可以在my.dic文件中添加一些自定义的词汇，再重启ES，分词时就能识别到啦。
+## RESTful风格操作
 
+### 基本操作
+
+>新增
+
+创建索引
+
+```
+PUT /索引名称/类型名/文档id
+{}
+```
+
+如
+
+```json
+PUT /peilin/t0/1
+{
+	"name": "peilin1"
+	"age": "20"
+}
+```
+
+此时创建了索引 `peilin` ，再往peilin中添加了类型为 `t0` id为 1的文档
+
+
+
+创建具体索引规则
+
+```json
+PUT /peilin2
+{
+	"mappings": {
+		"properties": {
+            "name": {
+                "type": "text"
+            },
+           	"age": {
+                "type": "long"
+            }
+        }
+	}
+}
+```
+
+
+
+> 查询
+
+上述已经添加了部分用例， 可以进行简单的查询
