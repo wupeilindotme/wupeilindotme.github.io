@@ -58,15 +58,15 @@ public interface TreeNode<T extends TreeNode<T>> {
      * @param list 待遍历的结点
      */
     default void recursion(T root, List<T> list) {
-        if (node == null) {
+        if (root == null) {
             return;
         }
         for (T n : list) {
-            if (n.getParentId() != null && n.getParentId().equals(node.getId())) {
-                if (node.getChildren() == null) {
-                    node.setChildren(new ArrayList<>());
+            if (n.getParentId() != null && n.getParentId().equals(root.getId())) {
+                if (root.getChildren() == null) {
+                    root.setChildren(new ArrayList<>());
                 }
-                node.getChildren().add(n);
+                root.getChildren().add(n);
                 n.recursion(n, list);
             }
         }
